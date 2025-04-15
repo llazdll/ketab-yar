@@ -61,13 +61,13 @@ const Navbar = () => {
               خانه
             </Link>
             <Link
-              href="/menu"
+              href="/bookRequest"
               className="py-4 px-2 text-gray-800 font-semibold hover:text-[#ff4d30] transition duration-300"
             >
               درخواست کتاب
             </Link>
             <Link
-              href="/about"
+              href="/aboutUs"
               className="py-4 px-2 text-gray-800 font-semibold hover:text-[#ff4d30] transition duration-300"
             >
               درباره ما
@@ -92,14 +92,14 @@ const Navbar = () => {
           خانه
         </Link>
         <Link
-          href="/menu"
+          href="/bookRequest"
           className="block py-2 px-4 text-sm hover:bg-gray-200"
           onClick={() => setIsOpen(false)}
         >
   درخواست کتاب
         </Link>
         <Link
-          href="/about"
+          href="/aboutUs"
           className="block py-2 px-4 text-sm hover:bg-gray-200"
           onClick={() => setIsOpen(false)}
         >
