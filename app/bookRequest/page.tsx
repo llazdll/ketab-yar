@@ -158,15 +158,11 @@ function RentBook() {
                 </div>
 
             </div>
-            {/* <Link href={'/rentBook'} >
-                <FaLocationArrow className='text-2xl' />
-            next
-            </Link> */}
             <CustomButton 
             className='shadow-lg hover:bg-primary/80 transition duration-300 ease-in-out flex flex-row-reverse'
             title=''
             linkText='بعدی'
-            href='/rentBook'
+            href='/checkout'
             icon={<MdNavigateNext/>}
             >  
             </CustomButton>
