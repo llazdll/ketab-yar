@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React, { ReactNode } from 'react';
 
 interface CustomButtonProps {
-    title: string;
+    title?: string;
     linkText?: string
     icon?: ReactNode;
     className?: string;
@@ -14,11 +14,10 @@ interface CustomButtonProps {
 function CustomButton({
     href,
     linkText,
-    newTab,
     title,
     icon,
     className = '',
-    color 
+    color
 }: CustomButtonProps) {
     const baseClasses = `
     hover:text-black
@@ -49,9 +48,9 @@ function CustomButton({
       `}
         >
             {href ? (
-                <a href={href} target={newTab ? "_blank" : undefined} rel={newTab ? "noopener noreferrer" : undefined}>
+                <Link href={href} >
                     {linkText}
-                </a>
+                </Link>
             ) : null}
             {icon && <span>{icon}</span>}
             {title}

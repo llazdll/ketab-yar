@@ -13,6 +13,8 @@ import { FaBookOpen, FaLocationArrow, FaInfoCircle } from 'react-icons/fa'
 import RangePicker from './rangePicker'
 import Image from 'next/image'
 import Link from 'next/link'
+import CustomButton from '../CustomeButton'
+import { MdNavigateNext } from 'react-icons/md'
 
 function RentBook() {
     const [selectedBook, setSelectedBook] = useState('crime-and-punishment')
@@ -61,7 +63,7 @@ function RentBook() {
         <div className='grid grid-cols-1 md:grid-cols-2 gap-8 min-h-screen p-4'>
             {/* Left Column - Form */}
             <div className='space-y-8 border-2 border-primary/60 rounded-lg p-6 bg-white shadow-md'>
-                <h1 className='text-3xl font-bold text-primary'>کتاب های موجود</h1>
+                <h1 className='text-3xl font-bold text-gray-700'>کتاب های موجود</h1>
 
                 {/* Book Selection */}
                 <div className='space-y-4'>
@@ -156,10 +158,18 @@ function RentBook() {
                 </div>
 
             </div>
-            <Link href={'/rentBook'} className='fixed bottom-4 right-4 bg-primary text-white rounded-full p-4 shadow-lg hover:bg-primary/80 transition duration-300 ease-in-out'>
+            {/* <Link href={'/rentBook'} >
                 <FaLocationArrow className='text-2xl' />
             next
-            </Link>
+            </Link> */}
+            <CustomButton 
+            className='shadow-lg hover:bg-primary/80 transition duration-300 ease-in-out flex flex-row-reverse'
+            title=''
+            linkText='بعدی'
+            href='/rentBook'
+            icon={<MdNavigateNext/>}
+            >  
+            </CustomButton>
         </div>
     )
 }
