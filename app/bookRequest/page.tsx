@@ -123,6 +123,14 @@ function RentBook() {
                     </div>
                     <RangePicker />
                 </div>
+                <CustomButton 
+            className='w-full md:w-auto shadow-lg hover:bg-primary/80 transition duration-300 ease-in-out flex flex-row-reverse'
+            title=''
+            linkText='بعدی'
+            href='/checkout'
+            icon={<MdNavigateNext/>}
+            >  
+            </CustomButton>
             </div>
 
             {/* Right Column - Book Image */}
@@ -156,16 +164,7 @@ function RentBook() {
                     <h3 className='text-2xl font-bold'>{selectedBookData?.title}</h3>
                     <p className='text-gray-500'>{selectedBookData?.category}</p>
                 </div>
-
             </div>
-            <CustomButton 
-            className='shadow-lg hover:bg-primary/80 transition duration-300 ease-in-out flex flex-row-reverse'
-            title=''
-            linkText='بعدی'
-            href='/checkout'
-            icon={<MdNavigateNext/>}
-            >  
-            </CustomButton>
         </div>
     )
 }

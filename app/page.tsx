@@ -26,7 +26,9 @@ export default function Home() {
             </h3>
             
             <h1 className="text-4xl font-bold leading-tight md:text-5xl">
-              با <span className="text-primary">کتاب یار</span> دیگه پول به کتاب نده
+              با <span className="text-primary">کتاب یار</span>  دیگه پول به کتاب نده ,
+              <br />
+              الکل بهتره
             </h1>
             
             <p className="text-xl text-gray-600 md:text-2xl">
@@ -42,7 +44,9 @@ export default function Home() {
               />
               
               <CustomButton
-                title="ادامه مطالب"
+                title=""
+                linkText="ادامه مطالب"
+                href="/bookRequest"
                 className="border-gray-300 hover:bg-gray-50"
                 icon={<MdNavigateNext className="mr-2" />}
                 aria-label="Read more content"
