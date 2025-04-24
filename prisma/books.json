@@ -1,0 +1,99 @@
+[
+  {
+    "id": "crime-and-punishment",
+    "title": "جنایات و مکافات | Crime and Punishment",
+    "author": "فئودور داستایفسکی | Fyodor Dostoevsky",
+    "isbn": "9789643510017",
+    "publisher": "انتشارات خوارزمی | Khwarizmi Publications",
+    "edition": "چاپ پنجم | 5th Edition",
+    "description": "رمانی عمیق از داستایفسکی درباره دانشجویی که مرتکب قتل می‌شود و سپس با عذاب وجدان دست و پنجه نرم می‌کند. This novel explores morality and redemption.",
+    "condition": "VERY_GOOD",
+    "category": "رمان فلسفی | Psychological Novel",
+    "language": "فارسی/انگلیسی | Persian/English",
+    "pageCount": 671,
+    "images": [
+      "https://i.postimg.cc/ZKm5C3Sm/crime-and-punishment.jpg"
+    ],
+    "dailyPrice": 15.5,
+    "deposit": 50.0,
+    "status": "AVAILABLE",
+    "featured": true,
+    "ownerId": "user_2fRZ4XK1J3lQ1dWYK4vX4hGQ2eD",
+    "location": "تهران، خیابان انقلاب | Tehran, Enghelab St",
+    "createdAt": "2023-01-15T10:30:00Z",
+    "updatedAt": "2023-01-15T10:30:00Z"
+  },
+  {
+    "id": "hundred-years",
+    "title": "صد سال تنهایی | One Hundred Years of Solitude",
+    "author": "گابریل گارسیا مارکز | Gabriel García Márquez",
+    "isbn": "9789644480715",
+    "publisher": "انتشارات نیلوفر | Niloufar Publications",
+    "edition": "چاپ سوم | 3rd Edition",
+    "description": "داستان چند نسل از خانواده بوئندیا در ماکوندو. A magical realism masterpiece.",
+    "condition": "GOOD",
+    "category": "رئالیسم جادویی | Magical Realism",
+    "language": "فارسی | Persian",
+    "pageCount": 432,
+    "images": [
+      "https://i.postimg.cc/TYcYmwdD/hundred-years.jpg"
+    ],
+    "dailyPrice": 12.0,
+    "deposit": 40.0,
+    "status": "AVAILABLE",
+    "featured": false,
+    "ownerId": "user_5tY8LK9J2mQ3eWXK7vY1hGQ4eF",
+    "location": "اصفهان، خیابان چهارباغ | Isfahan, Chahar Bagh St",
+    "createdAt": "2023-02-20T11:15:00Z",
+    "updatedAt": "2023-02-20T11:15:00Z"
+  },
+  {
+    "id": "elvis",
+    "title": "الویس | Elvis: The Biography",
+    "author": "جری هاپکینز | Jerry Hopkins",
+    "isbn": "9780316028571",
+    "publisher": "Perseus Books",
+    "edition": "اول | 1st Edition",
+    "description": "زندگینامه جامع الویس پریسلی. The definitive biography of the King of Rock and Roll.",
+    "condition": "LIKE_NEW",
+    "category": "زندگینامه | Biography",
+    "language": "انگلیسی | English",
+    "pageCount": 512,
+    "images": [
+      "https://i.postimg.cc/vZqYqN68/elvis.jpg"
+    ],
+    "dailyPrice": 18.0,
+    "deposit": 60.0,
+    "status": "RENTED",
+    "featured": true,
+    "ownerId": "user_8uI3MK4J1nQ2dWXK9vY5hGQ3eG",
+    "location": "مشهد، بلوار وکیل‌آباد | Mashhad, Vakilabad Blvd",
+    "createdAt": "2023-03-10T09:45:00Z",
+    "updatedAt": "2023-04-05T14:20:00Z"
+  }
+,
+    {
+      "id": "lost-time",
+      "title": "در جست‌وجوی زمان از دست رفته | In Search of Lost Time",
+      "author": "مارسل پروست | Marcel Proust",
+      "isbn": "9782070404326",
+      "publisher": "Gallimard",
+      "edition": "چاپ دوم | 2nd Edition",
+      "description": "اثری مهم از مارسل پروست درباره حافظه و زمان. Seminal 20th-century literature.",
+      "condition": "ACCEPTABLE",
+      "category": "ادبیات کلاسیک | Classic Literature",
+      "language": "فرانسوی/فارسی | French/Persian",
+      "pageCount": 4215,
+      "images": [
+        "https://i.postimg.cc/135RKQXY/lost-time.jpg"
+      ],
+      "dailyPrice": 20.0,
+      "deposit": 80.0,
+      "featured": false,
+      "ownerId": "user_1rT9LK2J7mQ4eWXK3vY8hGQ1eH",
+      "location": "شیراز، خیابان زند | Shiraz, Zand St",
+      "createdAt": "2023-03-10T09:45:00Z",
+    "updatedAt": "2023-04-05T14:20:00Z"
+    }
+  ]
+  

@@ -1,0 +1,153 @@
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  directUrl         = env("DIRECT_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+// Enums
+enum BookCondition {
+  NEW
+  LIKE_NEW
+  VERY_GOOD
+  GOOD
+  FAIR
+  ACCEPTABLE
+  DAMAGED
+}
+
+enum RentalStatus {
+  PENDING
+  APPROVED
+  ACTIVE
+  COMPLETED
+  CANCELLED
+  OVERDUE
+  REJECTED
+}
+
+enum BookStatus {
+  AVAILABLE
+  RENTED
+  UNDER_MAINTENANCE
+  LOST
+  RESERVED
+}
+
+// Models
+model User {
+  id          String       @id @default(uuid())
+  email       String       @unique
+  name        String?
+  address     String?
+  phone       String?
+  authUserId  String       @unique @map("auth_user_id")
+  createdAt   DateTime     @default(now()) @map("created_at")
+  updatedAt   DateTime     @updatedAt @map("updated_at")
+  verified    Boolean      @default(false)
+
+  // Relations
+  books       Book[]
+  rentals     Rental[]     @relation("RentalRenter")
+  lends       Rental[]     @relation("RentalLender")
+  reviews     Review[]
+  wishlists   Wishlist[]
+
+  @@map("users")
+}
+
+model Book {
+  id          String       @id @default(uuid())
+  title       String
+  altTitle    String?
+  author      String
+  isbn        String?      @unique
+  publisher   String
+  edition     String?
+  description String
+  condition   BookCondition
+  category    String
+  language    String
+  pageCount   Int?         @map("page_count")
+  images      String[]
+  dailyPrice  Float        @map("daily_price")
+  deposit     Float
+  status      BookStatus   @default(AVAILABLE)
+  featured    Boolean      @default(false)
+  ownerId     String       @map("owner_id")
+  location    String?
+  tags        String[]
+  views       Int          @default(0)
+  createdAt   DateTime     @default(now()) @map("created_at")
+  updatedAt   DateTime     @updatedAt @map("updated_at")
+
+  // Relations
+  owner       User         @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  rentals     Rental[]
+  reviews     Review[]
+  wishlists   Wishlist[]
+
+  @@index([title])
+  @@index([author])
+  @@index([category])
+  @@map("books")
+}
+
+model Rental {
+  id              String       @id @default(uuid())
+  bookId          String       @map("book_id")
+  renterId        String       @map("renter_id")
+  lenderId        String       @map("lender_id")
+  startDate       DateTime     @map("start_date")
+  endDate         DateTime     @map("end_date")
+  returnedAt      DateTime?    @map("returned_at")
+  status          RentalStatus @default(PENDING)
+  totalPrice      Float?       @map("total_price")
+  damageNotes     String?
+  depositRefunded Boolean      @default(false) @map("deposit_refunded")
+  createdAt       DateTime     @default(now()) @map("created_at")
+  updatedAt       DateTime     @updatedAt @map("updated_at")
+
+  // Relations
+  book            Book         @relation(fields: [bookId], references: [id])
+  renter          User         @relation("RentalRenter", fields: [renterId], references: [id])
+  lender          User         @relation("RentalLender", fields: [lenderId], references: [id])
+
+  @@index([bookId])
+  @@index([renterId])
+  @@index([status])
+  @@map("rentals")
+}
+
+model Review {
+  id          String       @id @default(uuid())
+  rating      Int          @default(5)
+  comment     String?
+  bookId      String       @map("book_id")
+  userId      String       @map("user_id")
+  createdAt   DateTime     @default(now()) @map("created_at")
+  updatedAt   DateTime     @updatedAt @map("updated_at")
+
+  // Relations
+  book        Book         @relation(fields: [bookId], references: [id])
+  user        User         @relation(fields: [userId], references: [id])
+
+  @@index([bookId])
+  @@index([userId])
+  @@map("reviews")
+}
+
+model Wishlist {
+  id        String   @id @default(uuid())
+  userId    String
+  bookId    String
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id])
+  book      Book     @relation(fields: [bookId], references: [id])
+
+  @@unique([userId, bookId])
+  @@map("wishlists")
+}

@@ -1,4 +1,5 @@
 "use client"
+
 import React, { useState } from 'react'
 import {
     Select,
@@ -12,43 +13,12 @@ import {
 import { FaBookOpen, FaLocationArrow, FaInfoCircle } from 'react-icons/fa'
 import RangePicker from './rangePicker'
 import Image from 'next/image'
-import Link from 'next/link'
 import CustomButton from '../CustomeButton'
 import { MdNavigateNext } from 'react-icons/md'
+import books from '@/prisma/books.json'
 
 function RentBook() {
     const [selectedBook, setSelectedBook] = useState('crime-and-punishment')
-
-    const books = [
-        {
-            id: 'crime-and-punishment',
-            title: 'جنایات و مکافات',
-            image: '/books/crime-and-punishment.jpg',
-            category: 'رمان فلسفی | روانشناختی',
-            description: 'رمانی عمیق از داستایفسکی درباره دانشجویی که مرتکب قتل می‌شود و سپس با عذاب وجدان دست و پنجه نرم می‌کند. این کتاب به بررسی مفاهیم اخلاقیات، پشیمانی و رستگاری می‌پردازد.'
-        },
-        {
-            id: 'hundred-years',
-            title: '100 سال تنهایی',
-            image: '/books/hundred-years.jpg',
-            category: 'رمان | رئالیسم جادویی',
-            description: 'شاهکار گابریل گارسیا مارکز که داستان چند نسل از خانواده بوئندیا را در شهر خیالی ماکوندو روایت می‌کند. این کتاب ترکیبی زیبا از واقعیت و عناصر جادویی است.'
-        },
-        {
-            id: 'elvis',
-            title: 'الویس',
-            image: '/books/elvis.jpg',
-            category: 'زندگینامه | موسیقی',
-            description: 'زندگینامه جامع الویس پریسلی، سلطان راک اند رول. این کتاب به بررسی زندگی شخصی، حرفه‌ای و میرود ماندگار او در صنعت موسیقی می‌پردازد.'
-        },
-        {
-            id: 'lost-time',
-            title: 'در جست‌وجوی زمان از دست رفته',
-            image: '/books/lost-time.jpg',
-            category: 'رمان | کلاسیک مدرن',
-            description: 'اثر مارسل پروست، یکی از مهم‌ترین آثار ادبیات قرن بیستم که به بررسی خاطرات، زمان و تجربیات حسی می‌پردازد. این رمان در هفت جلد نوشته شده است.'
-        }
-    ]
 
     const cities = [
         { id: 'karaj', name: 'کرج' },
@@ -61,21 +31,14 @@ function RentBook() {
 
     return (
         <div className='grid grid-cols-1 md:grid-cols-2 gap-8 min-h-screen p-4'>
-            {/* Left Column - Form */}
             <div className='space-y-8 border-2 border-primary/60 rounded-lg p-6 bg-white shadow-md'>
                 <h1 className='text-3xl font-bold text-gray-700'>کتاب های موجود</h1>
-
-                {/* Book Selection */}
                 <div className='space-y-4'>
                     <div className='flex items-center gap-2 text-gray-700'>
                         <FaBookOpen className='text-primary' />
                         <h2 className='text-lg'>کتاب هایی که میتونی قرض بگیری</h2>
                     </div>
-                    <Select
-                        dir='rtl'
-                        value={selectedBook}
-                        onValueChange={setSelectedBook}
-                    >
+                    <Select dir='rtl' value={selectedBook} onValueChange={setSelectedBook}>
                         <SelectTrigger className="w-full">
                             <SelectValue placeholder="کتاب های موجود" />
                         </SelectTrigger>
@@ -91,8 +54,6 @@ function RentBook() {
                         </SelectContent>
                     </Select>
                 </div>
-
-                {/* City Selection */}
                 <div className='space-y-4'>
                     <div className='flex items-center gap-2 text-gray-700'>
                         <FaLocationArrow className='text-primary' />
@@ -114,8 +75,6 @@ function RentBook() {
                         </SelectContent>
                     </Select>
                 </div>
-
-                {/* Date Range Picker */}
                 <div className='space-y-4'>
                     <div className='flex items-center gap-2 text-gray-700'>
                         <FaLocationArrow className='text-primary' />
@@ -124,18 +83,14 @@ function RentBook() {
                     <RangePicker />
                 </div>
                 <CustomButton 
-            className='w-full md:w-auto shadow-lg hover:bg-primary/80 transition duration-300 ease-in-out flex flex-row-reverse'
-            title=''
-            linkText='بعدی'
-            href='/checkout'
-            icon={<MdNavigateNext/>}
-            >  
-            </CustomButton>
+                    className='w-full md:w-auto shadow-lg hover:bg-primary/80 transition duration-300 ease-in-out flex flex-row-reverse'
+                    title=''
+                    linkText='بعدی'
+                    href='/checkout'
+                    icon={<MdNavigateNext />}
+                />
             </div>
-
-            {/* Right Column - Book Image */}
             <div className='flex flex-col items-center justify-center gap-6 rounded-lg p-2 bg-white shadow-md'>
-                {/* Book Details */}
                 <div className='bg-gray-50 p-4 rounded-lg space-y-3'>
                     <div className='flex items-center gap-2 text-primary'>
                         <FaInfoCircle />
@@ -150,10 +105,9 @@ function RentBook() {
                         {selectedBookData?.description}
                     </p>
                 </div>
-                {/* Book Image */}
                 <div className='relative w-full max-w-md aspect-[3/4] shadow-lg rounded-lg overflow-hidden'>
                     <Image
-                        src={selectedBookData?.image || '/books/default.jpg'}
+                        src={selectedBookData?.images?.[0] || '/books/default.jpg'}
                         alt={selectedBookData?.title || 'کتاب'}
                         fill
                         className='object-cover'
