@@ -19,7 +19,6 @@ import books from '@/prisma/books.json'
 
 function RentBook() {
     const [selectedBook, setSelectedBook] = useState('crime-and-punishment')
-
     const cities = [
         { id: 'karaj', name: 'کرج' },
         { id: 'tehran', name: 'تهران' },
