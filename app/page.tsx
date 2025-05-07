@@ -37,14 +37,14 @@ export default function Home() {
 
             <div className="flex flex-col gap-4 pt-4 sm:flex-row sm:items-center">
               <CustomButton
-                title="کتابت رو قرض بگیر"
+                linkText="کتابت رو قرض بده"
+                href="/lendBook"
                 className="bg-black text-white hover:bg-gray-800"
                 icon={<FaCheck className="mr-2" />}
                 aria-label="Borrow your book"
               />
               
               <CustomButton
-                title=""
                 linkText="ادامه مطالب"
                 href="/bookRequest"
                 className="border-gray-300 hover:bg-gray-50"
