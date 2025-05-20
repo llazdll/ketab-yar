@@ -10,10 +10,10 @@ import { CiMenuKebab, CiShoppingCart } from "react-icons/ci";
 import { FiUser, FiLogOut, FiShoppingBag } from "react-icons/fi";
 import SignOutButton from "./SignOutButton"
 import SignInButtons from "./SignInButtons"
-import Link from "next/link"
 import NavigationLinks from "./NavigationLinks"
+import { CartItem } from "@/utils/types";
 
-export function UserNav({ session, data }: { session: any, data: any }) {
+export function UserNav({ session, data }: { session: any, data: CartItem }) {
   if (session === undefined) {
     return <div className="w-[100px] h-[30px] rounded-full bg-muted animate-pulse" />
   }
