@@ -30,7 +30,7 @@ export default function BookCard({ book }: { book: any }) {
   return (
     <Card className="h-full flex flex-col border border-gray-200 shadow-sm hover:shadow-2xl ease-in">
       <Link 
-      href={"/cart"}
+      href={`/bookRequest/${book.id}`}
       className="relative aspect-[3/4] bg-gray-100 rounded-t-lg overflow-hidden">
         <Image
           src={book.images[0]}

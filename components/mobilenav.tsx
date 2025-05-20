@@ -77,7 +77,7 @@ export function UserNav({ session, data }: { session: any, data: CartItem }) {
               <span>سبد خرید</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-sm font-medium">{cartCount} آیتم</span>
+              <span className="text-sm font-medium">کتاب</span>
               <div className="h-5 w-5 rounded-full bg-primary/20 flex items-center justify-center">
                 <span className="text-xs font-bold text-primary">{cartCount}</span>
               </div>

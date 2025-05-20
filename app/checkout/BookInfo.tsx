@@ -2,7 +2,7 @@
 import React from 'react'
 import { FaInfoCircle, FaStar } from 'react-icons/fa'
 import Image from 'next/image'
-import { Book } from '@/types'
+import { Book } from '@/utils/types'
 import { Skeleton } from '@/components/ui/skeleton'
 
 interface BookInfoProps {
