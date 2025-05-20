@@ -1,86 +1,57 @@
-datasource db {
-  provider          = "postgresql"
-  url               = env("DATABASE_URL")
-  directUrl         = env("DIRECT_URL")
-}
-
 generator client {
   provider = "prisma-client-js"
 }
-// Enums
-enum BookCondition {
-  NEW
-  LIKE_NEW
-  VERY_GOOD
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
-enum RentalStatus {
-  PENDING
-  APPROVED
-  ACTIVE
-  COMPLETED
-  CANCELLED
-  OVERDUE
-  REJECTED
-}
-
-enum BookStatus {
-  AVAILABLE
-  RENTED
-  UNDER_MAINTENANCE
-  LOST
-  RESERVED
-}
-
-// Models
 model User {
-  id          String       @id @default(uuid())
-  email       String       @unique
-  name        String?
-  address     String?
-  phone       String?
-  authUserId  String       @unique @map("auth_user_id")
-  createdAt   DateTime     @default(now()) @map("created_at")
-  updatedAt   DateTime     @updatedAt @map("updated_at")
-  verified    Boolean      @default(false)
-
-  // Relations
-  books       Book[]
-  rentals     Rental[]     @relation("RentalRenter")
-  lends       Rental[]     @relation("RentalLender")
-  reviews     Review[]
-  wishlists   Wishlist[]
+  id         String     @id @default(uuid())
+  email      String     @unique
+  name       String?
+  address    String?
+  phone      String?
+  authUserId String     @unique @map("auth_user_id")
+  createdAt  DateTime   @default(now()) @map("created_at")
+  updatedAt  DateTime   @updatedAt @map("updated_at")
+  verified   Boolean    @default(false)
+  books      Book[]
+  lends      Rental[]   @relation("RentalLender")
+  rentals    Rental[]   @relation("RentalRenter")
+  reviews    Review[]
+  wishlists  Wishlist[]
 
   @@map("users")
 }
 
 model Book {
-  id          String       @id @default(uuid())
+  id          String        @id @default(uuid())
   title       String
   altTitle    String?
   author      String
-  isbn        String?      @unique
+  isbn        String?       @unique
   publisher   String
   edition     String?
   description String
   condition   BookCondition
   category    String
   language    String
-  pageCount   Int?         @map("page_count")
+  pageCount   Int?          @map("page_count")
   images      String[]
-  dailyPrice  Float        @map("daily_price")
+  dailyPrice  Float         @map("daily_price")
   deposit     Float
-  status      BookStatus   @default(AVAILABLE)
-  featured    Boolean      @default(false)
-  ownerId     String       @map("owner_id")
+  status      BookStatus    @default(AVAILABLE)
+  featured    Boolean       @default(false)
+  ownerId     String        @map("owner_id")
   location    String?
   tags        String[]
-  views       Int          @default(0)
-  createdAt   DateTime     @default(now()) @map("created_at")
-  updatedAt   DateTime     @updatedAt @map("updated_at")
-
-  // Relations
-  owner       User         @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  views       Int           @default(0)
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+  owner       User          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   rentals     Rental[]
   reviews     Review[]
   wishlists   Wishlist[]
@@ -105,11 +76,9 @@ model Rental {
   depositRefunded Boolean      @default(false) @map("deposit_refunded")
   createdAt       DateTime     @default(now()) @map("created_at")
   updatedAt       DateTime     @updatedAt @map("updated_at")
-
-  // Relations
   book            Book         @relation(fields: [bookId], references: [id])
-  renter          User         @relation("RentalRenter", fields: [renterId], references: [id])
   lender          User         @relation("RentalLender", fields: [lenderId], references: [id])
+  renter          User         @relation("RentalRenter", fields: [renterId], references: [id])
 
   @@index([bookId])
   @@index([renterId])
@@ -118,17 +87,15 @@ model Rental {
 }
 
 model Review {
-  id          String       @id @default(uuid())
-  rating      Int          @default(5)
-  comment     String?
-  bookId      String       @map("book_id")
-  userId      String       @map("user_id")
-  createdAt   DateTime     @default(now()) @map("created_at")
-  updatedAt   DateTime     @updatedAt @map("updated_at")
-
-  // Relations
-  book        Book         @relation(fields: [bookId], references: [id])
-  user        User         @relation(fields: [userId], references: [id])
+  id        String   @id @default(uuid())
+  rating    Int      @default(5)
+  comment   String?
+  bookId    String   @map("book_id")
+  userId    String   @map("user_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  book      Book     @relation(fields: [bookId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
 
   @@index([bookId])
   @@index([userId])
@@ -140,10 +107,45 @@ model Wishlist {
   userId    String
   bookId    String
   createdAt DateTime @default(now())
-
-  user      User     @relation(fields: [userId], references: [id])
   book      Book     @relation(fields: [bookId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
 
   @@unique([userId, bookId])
   @@map("wishlists")
+}
+
+model Cart {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  bookId    String   @map("book_id")
+  quantity  Int      @default(1)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([userId, bookId])
+  @@map("carts")
+}
+
+enum BookCondition {
+  NEW
+  LIKE_NEW
+  VERY_GOOD
+}
+
+enum RentalStatus {
+  PENDING
+  APPROVED
+  ACTIVE
+  COMPLETED
+  CANCELLED
+  OVERDUE
+  REJECTED
+}
+
+enum BookStatus {
+  AVAILABLE
+  RENTED
+  UNDER_MAINTENANCE
+  LOST
+  RESERVED
 }
