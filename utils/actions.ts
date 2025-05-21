@@ -145,10 +145,19 @@ export const getCartItems = async () => {
 
 
 export async function removeFromCart(bookId: string, userId: string) {
-  await db.cart.delete({
-    where: { userId_bookId: { userId, bookId } }
-  });
-  revalidatePath('/cart');
+  try {
+    await db.cart.delete({
+      where: { userId_bookId: { userId, bookId } }
+    });
+    revalidatePath('/cart');
+    return {
+      success: true,
+      message: 'کتاب با موفقیت از سبد خرید حذف شد',
+    };
+  } catch (error) {
+    console.error('Error adding to cart:', error);
+    return { error: 'خطا در حذف کتاب از سبد خرید' };
+  }
 }
 
 export async function updateCartItem(bookId: string, userId: string, quantity: number) {

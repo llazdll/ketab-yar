@@ -11,7 +11,7 @@ async function Cart() {
         return (
             <div className="flex flex-col items-center justify-center min-h-[50vh]">
                 <h2 className="text-2xl font-bold mb-4">سبد خرید شما خالی است</h2>
-                <Link href="/books">
+                <Link href="/bookRequest">
                     <Button variant="default">
                         بازگشت به فروشگاه
                     </Button>
