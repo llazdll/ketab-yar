@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import Image from "next/image";
 import { addToCartAction } from "@/utils/actions";
-import { toast } from 'sonner';
 import Link from 'next/link';
+import { toast } from 'sonner';
 
 export default function BookCard({ book }: { book: any }) {
   const [loading, setLoading] = useState(false);
@@ -14,35 +14,46 @@ export default function BookCard({ book }: { book: any }) {
     setLoading(true);
     try {
       const result = await addToCartAction(book.id);
-      
+
       if (result.success) {
-        toast.success(result.message);
+        toast.success('کتاب به سبد خرید اضافه شد', {
+          description: 'شما می‌توانید با مراجعه به سبد خرید فرآیند اجاره را ادامه دهید.',
+          action: {
+            label: 'مشاهده سبد خرید',
+            onClick: () => window.location.href = '/cart'
+          },
+        });
       } else {
-        toast.error(result.error);
+        toast.error('این کتاب در  سبد خرید هست', {
+          description: result.error || 'درحال حاظر این کتاب توی سبد خریدت هست. برای تغیر مقدار به سبد خرید مرجعه کن'
+        });
       }
     } catch (error) {
-      toast.error('خطای ناشناخته در اضافه کردن به سبد خرید');
+      toast.error('خطای غیرمنتظره', {
+        description: 'در هنگام افزودن کتاب به سبد خرید مشکلی پیش آمد.'
+      });
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <Card className="h-full flex flex-col border border-gray-200 shadow-sm hover:shadow-2xl ease-in">
+    <Card className="h-full flex flex-col border border-gray-200 shadow-sm hover:shadow-2xl transition-shadow duration-200 ease-in-out">
       <Link 
-      href={`/bookRequest/${book.id}`}
-      className="relative aspect-[3/4] bg-gray-100 rounded-t-lg overflow-hidden">
+        href={`/bookRequest/${book.id}`}
+        className="relative aspect-[3/4] bg-gray-100 rounded-t-lg overflow-hidden"
+      >
         <Image
-          src={book.images[0]}
+          src={book.images[0] || '/books/default.jpg'}
           alt={book.title}
           fill
           className="object-cover"
           sizes="(max-width: 640px) 85vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 20vw"
           priority={false}
         />
-        {book.tags && (
+        {book.dailyPrice && (
           <div className="absolute top-2 left-2 bg-primary text-white text-xs font-bold px-2 py-1 rounded-full shadow-sm">
-            <span className="text-primary-600 font-bold text-sm">
+            <span>
               {book.dailyPrice.toLocaleString()}
               <span className="text-[10px] font-normal mr-1">تومان/روز</span>
             </span>
@@ -62,7 +73,7 @@ export default function BookCard({ book }: { book: any }) {
       <CardFooter className="p-3 pt-0 flex flex-col">
         <div className="flex justify-between w-full items-center mb-2">
           <span className="text-[10px] text-gray-500">
-            ودیعه: {book.deposit.toLocaleString()} تومان
+            ودیعه: {book.deposit?.toLocaleString() || '---'} تومان
           </span>
         </div>
         <button 
@@ -72,7 +83,7 @@ export default function BookCard({ book }: { book: any }) {
             loading ? 'opacity-50 cursor-not-allowed' : ''
           }`}
         >
-          {loading ? 'در حال اضافه کردن...' : 'اجاره کتاب'}
+          {loading ? 'در حال افزودن...' : 'اجاره کتاب'}
         </button>
       </CardFooter>
     </Card>

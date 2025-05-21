@@ -163,3 +163,22 @@ export async function updateCartItem(bookId: string, userId: string, quantity: n
   });
   revalidatePath('/cart');
 }
+function name(params:type) {
+  
+}
+export async  function fetchSingleBooks  (bookId: string) {
+  try {
+    const book = await db.book.findUnique({
+      where: { id: bookId }
+    })
+
+    if (!book) {
+      throw new Error('Book not found')
+    }
+
+    return book
+  } catch (error) {
+    console.error('Error fetching book:', error)
+    throw error 
+  }
+}
