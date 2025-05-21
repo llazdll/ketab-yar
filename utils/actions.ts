@@ -156,16 +156,22 @@ export async function updateCartItem(bookId: string, userId: string, quantity: n
     await removeFromCart(bookId, userId);
     return;
   }
-  
-  await db.cart.update({
-    where: { userId_bookId: { userId, bookId } },
-    data: { quantity }
-  });
-  revalidatePath('/cart');
+  try {
+    await db.cart.update({
+      where: { userId_bookId: { userId, bookId } },
+      data: { quantity }
+    });
+    revalidatePath('/cart');
+    return {
+      success: true,
+      message: 'تعداد کتاب با موفقیت تغییر یافت',
+    };
+  } catch (error) {
+    console.error('Error adding to cart:', error);
+    return { error: 'خطا در تغییر سبد خرید' };
+  }
 }
-function name(params:type) {
-  
-}
+
 export async  function fetchSingleBooks  (bookId: string) {
   try {
     const book = await db.book.findUnique({

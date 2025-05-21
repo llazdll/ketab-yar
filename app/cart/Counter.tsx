@@ -1,40 +1,50 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import React, { useState } from 'react';
-import { removeFromCart, updateCartItem } from '@/utils/actions'; // Ensure this import is correct
-
+import { removeFromCart, updateCartItem } from '@/utils/actions'; 
+import { toast } from 'sonner';
 interface CounterProps {
     initialCounterValue: number;
-    bookId: string; // Define the prop type
-    userId: string; // Assuming you need userId for the update
+    bookId: string; 
+    userId: string; 
 }
-
 function Counter({ initialCounterValue, bookId, userId }: CounterProps) {
     const [counter, setCounter] = useState(initialCounterValue);
-    const [loading, setLoading] = useState(false); // Loading state
-
+    const [loading, setLoading] = useState(false)
     const handleDecrement = async () => {
         if (counter > 1) {
             const newCounter = counter - 1;
             setCounter(newCounter);
-            setLoading(true); // Set loading to true before fetching
-            await updateCartItem(bookId, userId, newCounter);
-            setLoading(false); // Reset loading after fetching
+            setLoading(true);
+            const result=await updateCartItem(bookId, userId, newCounter);
+            if (result?.success) {
+                toast.success(`تعداد کتاب ${bookId} با موفقیت کاهش یافت`);
+                
+            } else {
+                 toast.error(`خطا در کاهش تعداد کتاب${bookId}`);
+            }
+            setLoading(false); 
         }
     };
 
     const handleIncrement = async () => {
         const newCounter = counter + 1;
         setCounter(newCounter);
-        setLoading(true); // Set loading to true before fetching
-        await updateCartItem(bookId, userId, newCounter);
-        setLoading(false); // Reset loading after fetching
+        setLoading(true);
+        const result=await updateCartItem(bookId, userId, newCounter);
+        if (result?.success) {
+                toast.success(`تعداد کتاب ${bookId} با موفقیت افزایش یافت`);
+                
+            } else {
+                toast.error(`خطا در افزایش تعداد کتاب${bookId}`);
+            }
+        setLoading(false); 
     };
 
     const handleDelete = async () => {
-        setLoading(true); // Set loading to true before fetching
+        setLoading(true); 
         await removeFromCart(bookId, userId);
-        setLoading(false); // Reset loading after fetching
+        setLoading(false); 
     };
 
     return (
@@ -42,7 +52,7 @@ function Counter({ initialCounterValue, bookId, userId }: CounterProps) {
             <Button
                 variant="outline"
                 size="sm"
-                disabled={loading || counter <= 1} // Disable if loading or counter is less than or equal to 1
+                disabled={loading || counter <= 1} 
                 onClick={handleDecrement}
             >
                 -
@@ -52,7 +62,7 @@ function Counter({ initialCounterValue, bookId, userId }: CounterProps) {
                 onClick={handleIncrement}
                 variant="outline"
                 size="sm"
-                disabled={loading} // Disable if loading
+                disabled={loading}
             >
                 +
             </Button>
@@ -62,7 +72,7 @@ function Counter({ initialCounterValue, bookId, userId }: CounterProps) {
                 size="sm" 
                 onClick={handleDelete}
                 className='bg-primary hover:bg-primary/80 text-white py-2 rounded-lg text-xs transition-colors'
-                disabled={loading} // Disable if loading
+                disabled={loading} 
             >
                 حذف
             </Button>
