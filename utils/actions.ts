@@ -35,7 +35,7 @@ export const createBookAction = async (
   prevState: any,
   formData: FormData
 ): Promise<{ message: string }> => {
-
+  
   const user = await getAuthUser();
 
   try {
@@ -54,10 +54,7 @@ export const createBookAction = async (
       data: {
         ...validatedFields,
         images: [fullPath],
-        ownerId: user.user?.id,
-        owner: {
-          connect: { id: "user_1rT9LK2J7mQ4eWXK3vY8hGQ1eH" }
-        }
+        ownerId: "user_5tY8LK9J2mQ3eWXK7vY1hGQ4eF",
       },
     });
 
@@ -83,7 +80,7 @@ export const addToCartAction = async (bookId: string) => {
     await db.cart.create({
       data: {
         bookId,
-        userId: user.user?.email as string,
+        userId: 'user_1rT9LK2J7mQ4eWXK3vY8hGQ1eH',
         quantity: 1,
       }
     });

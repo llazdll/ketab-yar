@@ -1,4 +1,8 @@
 'use client';
+import { useState, useEffect } from 'react';
+import { useFormState } from 'react-dom';
+import { toast } from 'sonner';
+
 import FormInput from '@/components/Form/FormInput';
 import { SubmitButton } from '@/components/Form/Buttons';
 import FormContainer from '@/components/Form/FormContainer';
@@ -8,13 +12,13 @@ import TextAreaInput from '@/components/Form/TextAreaInput';
 import CheckboxInput from '@/components/Form/CheckBoxInput';
 import PriceInput from '@/components/Form/PriceInput';
 import { SelectInput } from '@/components/Form/SelectInput';
-import { useState } from 'react';
 
 const statusOptions = [
   { label: 'نو', value: 'NEW' },
   { label: 'خیلی خوب', value: 'VERY_GOOD' },
   { label: 'قابل قبول', value: 'ACCEPTABLE' },
 ];
+
 const categories = [
   { label: 'ادبیات و داستان', value: 'LITERATURE_AND_FICTION' },
   { label: 'روانشناسی و خودیاری', value: 'PSYCHOLOGY_AND_SELF_HELP' },
@@ -32,9 +36,18 @@ const categories = [
   { label: 'محیط زیست و طبیعت', value: 'ENVIRONMENT_AND_NATURE' },
 ];
 
+const initialState = { success: false, message: '' };
+
 function CreateBookPage() {
-  const [category, setCategory] = useState("");
-  const [condition, setCondition] = useState("");
+  const [category, setCategory] = useState('');
+  const [condition, setCondition] = useState('');
+  const [state, formAction] = useFormState(createBookAction, initialState);
+
+  useEffect(() => {
+    if (state?.message) {
+      toast.success(state.message)
+    }
+  }, [state]);
 
   return (
     <section dir="rtl" className="md:w-[70%] mx-auto">
@@ -50,7 +63,7 @@ function CreateBookPage() {
             <FormInput type="number" name="edition" label="چاپ/نسخه" />
 
             <SelectInput
-              name='category'
+              name="category"
               label="دسته بندی"
               options={categories}
               placeholder="انتخاب دسته بندی"
@@ -59,7 +72,7 @@ function CreateBookPage() {
             />
 
             <SelectInput
-              name='condition'
+              name="condition"
               label="وضعیت کتاب"
               options={statusOptions}
               placeholder="انتخاب وضعیت"
@@ -77,10 +90,7 @@ function CreateBookPage() {
             <CheckboxInput name="featured" label="نمایش ویژه" />
           </div>
 
-          <TextAreaInput
-            name="description"
-            labelText="توضیحات کتاب"
-          />
+          <TextAreaInput name="description" labelText="توضیحات کتاب" />
 
           <SubmitButton text="ثبت کتاب" className="mt-8 w-full md:w-auto" />
         </FormContainer>
@@ -89,4 +99,4 @@ function CreateBookPage() {
   );
 }
 
-export default CreateBookPage;  
+export default CreateBookPage;

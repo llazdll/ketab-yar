@@ -12,6 +12,7 @@ import SignOutButton from "./SignOutButton"
 import SignInButtons from "./SignInButtons"
 import NavigationLinks from "./NavigationLinks"
 import { CartItem } from "@/utils/types";
+import Link from "next/link";
 
 export function UserNav({ session, data }: { session: any, data: CartItem }) {
   if (session === undefined) {
@@ -72,10 +73,10 @@ export function UserNav({ session, data }: { session: any, data: CartItem }) {
 
         <div className="px-3 py-2 space-y-2">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 text-sm">
+            <Link href={'/cart'} className="flex items-center gap-2 text-sm">
               <FiShoppingBag className="text-primary" />
               <span>سبد خرید</span>
-            </div>
+            </Link>
             <div className="flex items-center gap-2">
               <span className="text-sm font-medium">کتاب</span>
               <div className="h-5 w-5 rounded-full bg-primary/20 flex items-center justify-center">
