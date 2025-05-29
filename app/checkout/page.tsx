@@ -16,21 +16,21 @@ function RentBook() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [dateRange, setDateRange] = useState<string[]>([])
-  const [days, setDays] = useState(0)
+  const [days, setDays] = useState<number>(0)
 
   useEffect(() => {
     async function fetchCartItems() {
       try {
         setLoading(true)
         const items = await getCartItems()
-        
+
         if (!items || items.length === 0) {
           setError('سبد خرید شما خالی است')
           return
         }
 
         const validBooks = items
-          .filter(item => item.book)
+          .filter(item => item?.book)
           .map(item => item.book)
 
         if (validBooks.length === 0) {
@@ -51,24 +51,12 @@ function RentBook() {
     fetchCartItems()
   }, [])
 
-  useEffect(() => {
-    if (dateRange.length === 2) {
-      try {
-        const calculatedDays = calculateDays(dateRange[0], dateRange[1])
-        setDays(calculatedDays)
-        setError(null)
-      } catch (err) {
-        setDays(0)
-        setError('تاریخ‌های وارد شده نامعتبر هستند')
-      }
-    }
-  }, [dateRange])
+  const handleDateChange = (dates: string[]) => {
+    setDateRange(dates)
+  }
 
-  const calculateDays = (startDate: string, endDate: string): number => {
-    const start = new Date(startDate)
-    const end = new Date(endDate)
-    const diffTime = end.getTime() - start.getTime()
-    return Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1
+  const handleDaysChange = (calculatedDays: number) => {
+    setDays(calculatedDays)
   }
 
   const handleNext = () => {
@@ -76,26 +64,26 @@ function RentBook() {
       toast.error('لطفاً شهر تحویل را انتخاب کنید')
       return
     }
-    if (days <= 0) {
+    if (days <= 0 || dateRange.length !== 2) {
       toast.error('لطفاً تاریخ تحویل را مشخص کنید')
       return
     }
 
-    sessionStorage.setItem('rentalSelection', JSON.stringify({
+    const rentalData = {
       books: cartItems.map(book => book.id),
       city: selectedCity,
       startDate: dateRange[0],
       endDate: dateRange[1],
       days: days,
       totalCost: totalRentalCost + totalDeposit
-    }))
+    }
 
-    // Proceed to payment
+    sessionStorage.setItem('rentalSelection', JSON.stringify(rentalData))
     window.location.href = '/checkout/payment'
   }
 
   const totalDeposit = cartItems.reduce((sum, book) => sum + (book.deposit || 0), 0)
-  const totalRentalCost = cartItems.reduce((sum, book) => 
+  const totalRentalCost = cartItems.reduce((sum, book) =>
     sum + ((book.dailyPrice || 0) * days), 0)
 
   if (loading) {
@@ -136,12 +124,10 @@ function RentBook() {
       <h1 className="text-3xl font-bold text-gray-800 mb-8">تکمیل اطلاعات اجاره کتاب</h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Left Column - Book List and Forms */}
         <div className="lg:col-span-2 space-y-6">
-          {/* Book List */}
           <div className="bg-white rounded-lg shadow-md p-6">
             <h2 className="text-xl font-semibold text-gray-700 mb-4 flex items-center gap-2">
-              <FaBookOpen className="text-blue-500" />
+              <FaBookOpen className="text-primary" />
               کتاب‌های انتخابی
             </h2>
             <div className="space-y-4">
@@ -168,11 +154,11 @@ function RentBook() {
                     <div className="mt-2 grid grid-cols-2 gap-2">
                       <div>
                         <p className="text-sm text-gray-500">قیمت روزانه:</p>
-                        <p className="font-medium">{book.dailyPrice?.toLocaleString()} تومان</p>
+                        <p className="font-medium">{book.dailyPrice?.toLocaleString('fa-IR')} تومان</p>
                       </div>
                       <div>
                         <p className="text-sm text-gray-500">ودیعه:</p>
-                        <p className="font-medium">{book.deposit?.toLocaleString()} تومان</p>
+                        <p className="font-medium">{book.deposit?.toLocaleString('fa-IR')} تومان</p>
                       </div>
                     </div>
                   </div>
@@ -181,69 +167,66 @@ function RentBook() {
             </div>
           </div>
 
-          {/* Delivery Information */}
           <div className="bg-white rounded-lg shadow-md p-6">
             <h2 className="text-xl font-semibold text-gray-700 mb-4 flex items-center gap-2">
-              <FaMapMarkerAlt className="text-blue-500" />
+              <FaMapMarkerAlt className="text-primary" />
               اطلاعات تحویل
             </h2>
-            <CitySelector 
-              selectedCity={selectedCity} 
-              setSelectedCity={setSelectedCity} 
+            <CitySelector
+              selectedCity={selectedCity}
+              setSelectedCity={setSelectedCity}
             />
           </div>
 
-          {/* Delivery Time */}
           <div className="bg-white rounded-lg shadow-md p-6">
             <h2 className="text-xl font-semibold text-gray-700 mb-4 flex items-center gap-2">
-              <FaCalendarAlt className="text-blue-500" />
+              <FaCalendarAlt className="text-primary" />
               زمان تحویل
             </h2>
-            <RangePicker onDateChange={setDateRange} />
+            <RangePicker
+              onDateChange={handleDateChange}
+              onDaysChange={handleDaysChange}
+            />
             {dateRange.length === 2 && (
               <p className="text-sm text-gray-500 mt-2">
-                مدت اجاره: {days} روز ({dateRange[0]} تا {dateRange[1]})
+                مدت اجاره: <span className="font-bold">{days.toLocaleString('fa-IR')}</span> روز ({dateRange[0]} تا {dateRange[1]})
               </p>
-            )}
-            {error && (
-              <p className="text-sm text-red-500 mt-2">{error}</p>
             )}
           </div>
         </div>
 
-        {/* Right Column - Order Summary */}
         <div className="space-y-6">
           <div className="bg-white rounded-lg shadow-md p-6 sticky top-4">
             <h2 className="text-xl font-semibold text-gray-700 mb-4">خلاصه سفارش</h2>
-            
+
             <div className="space-y-3">
               <div className="flex justify-between">
                 <span className="text-gray-600">تعداد کتاب:</span>
-                <span>{cartItems.length}</span>
+                <span>{cartItems.length.toLocaleString('fa-IR')}</span>
               </div>
-              
+
               <div className="flex justify-between">
                 <span className="text-gray-600">مدت اجاره:</span>
-                <span>{days || '--'} روز</span>
+                <span>{days > 0 ? days.toLocaleString('fa-IR') : '--'} روز</span>
               </div>
-              
+
               <div className="border-t border-gray-200 pt-3 mt-2">
                 <div className="flex justify-between">
                   <span className="text-gray-600">هزینه اجاره:</span>
-                  <span>{totalRentalCost.toLocaleString()} تومان</span>
+                  <span>{totalRentalCost.toLocaleString('fa-IR')} تومان</span>
                 </div>
-                
+
                 <div className="flex justify-between">
                   <span className="text-gray-600">ودیعه:</span>
-                  <span>{totalDeposit.toLocaleString()} تومان</span>
+                  <span>{totalDeposit.toLocaleString('fa-IR')} تومان</span>
                 </div>
               </div>
-              
+
               <div className="border-t border-gray-200 pt-3 mt-2">
                 <div className="flex justify-between font-bold text-lg">
                   <span>مبلغ قابل پرداخت:</span>
-                  <span className="text-blue-600">
-                    {(totalRentalCost + totalDeposit).toLocaleString()} تومان
+                  <span className="text-primary">
+                    {(totalRentalCost + totalDeposit).toLocaleString('fa-IR')} تومان
                   </span>
                 </div>
               </div>
@@ -253,9 +236,9 @@ function RentBook() {
               onClick={handleNext}
               disabled={!selectedCity || days <= 0}
               className={`w-full mt-6 py-3 px-4 rounded-lg font-medium text-white flex items-center justify-center gap-2
-                ${(!selectedCity || days <= 0) 
-                  ? 'bg-gray-400 cursor-not-allowed' 
-                  : 'bg-blue-600 hover:bg-blue-700 transition-colors'}
+                ${(!selectedCity || days <= 0)
+                  ? 'bg-gray-400 cursor-not-allowed'
+                  : 'bg-primary hover:bg-primary/80 transition-colors'}
               `}
             >
               ادامه به پرداخت
