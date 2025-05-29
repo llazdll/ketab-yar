@@ -41,13 +41,7 @@ const initialState = { success: false, message: '' };
 function CreateBookPage() {
   const [category, setCategory] = useState('');
   const [condition, setCondition] = useState('');
-  const [state, formAction] = useFormState(createBookAction, initialState);
 
-  useEffect(() => {
-    if (state?.message) {
-      toast.success(state.message)
-    }
-  }, [state]);
 
   return (
     <section dir="rtl" className="md:w-[70%] mx-auto">
