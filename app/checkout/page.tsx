@@ -4,47 +4,44 @@ import { FaBookOpen, FaMapMarkerAlt, FaCalendarAlt } from 'react-icons/fa'
 import { MdNavigateNext } from 'react-icons/md'
 import Image from 'next/image'
 import { toast } from 'sonner'
-import RangePicker from './RangePicker'
+import RangePicker from './rangePicker'
 import CitySelector from './CitySelector'
 import { getCartItems } from '@/utils/actions'
 import { Book } from '@/utils/types'
-import { Skeleton } from '@/components/ui/skeleton'
+
 
 function RentBook() {
   const [selectedCity, setSelectedCity] = useState<string>('')
   const [cartItems, setCartItems] = useState<Book[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
   const [dateRange, setDateRange] = useState<string[]>([])
   const [days, setDays] = useState<number>(0)
 
   useEffect(() => {
     async function fetchCartItems() {
       try {
-        setLoading(true)
         const items = await getCartItems()
 
-        if (!items || items.length === 0) {
-          setError('سبد خرید شما خالی است')
-          return
-        }
+        // if (!items || items.length === 0) {
+        //   setError('سبد خرید شما خالی است')
+        //   return
+        // }
 
         const validBooks = items
           .filter(item => item?.book)
           .map(item => item.book)
 
-        if (validBooks.length === 0) {
-          setError('کتاب‌های سبد خرید نامعتبر هستند')
-          return
-        }
+        // if (validBooks.length === 0) {
+        //   setError('کتاب‌های سبد خرید نامعتبر هستند')
+        //   return
+        // }
 
         setCartItems(validBooks)
       } catch (err) {
         console.error('Error fetching cart items:', err)
         toast.error('خطا در دریافت اطلاعات سبد خرید')
-        setError('خطا در دریافت اطلاعات سبد خرید')
+        // setError('خطا در دریافت اطلاعات سبد خرید')
       } finally {
-        setLoading(false)
+        // setLoading(false)
       }
     }
 
@@ -86,43 +83,9 @@ function RentBook() {
   const totalRentalCost = cartItems.reduce((sum, book) =>
     sum + ((book.dailyPrice || 0) * days), 0)
 
-  if (loading) {
-    return (
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 min-h-screen p-4">
-        <div className="space-y-8">
-          <Skeleton className="h-12 w-1/2" />
-          {[...Array(3)].map((_, i) => (
-            <div key={i} className="space-y-4">
-              <Skeleton className="h-6 w-1/3" />
-              <Skeleton className="h-10 w-full" />
-            </div>
-          ))}
-          <Skeleton className="h-10 w-full" />
-        </div>
-        <div className="space-y-4">
-          <Skeleton className="h-96 w-full" />
-          <Skeleton className="h-8 w-3/4 mx-auto" />
-          <Skeleton className="h-6 w-1/2 mx-auto" />
-        </div>
-      </div>
-    )
-  }
-
-  if (error) {
-    return (
-      <div className="max-w-6xl mx-auto px-4 py-8 text-center">
-        <div className="bg-white rounded-lg shadow-md p-8">
-          <h1 className="text-2xl font-bold text-red-500 mb-4">خطا</h1>
-          <p className="text-gray-700">{error}</p>
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold text-gray-800 mb-8">تکمیل اطلاعات اجاره کتاب</h1>
-
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-6">
           <div className="bg-white rounded-lg shadow-md p-6">

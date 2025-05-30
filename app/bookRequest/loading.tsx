@@ -31,7 +31,7 @@ const Loading = () => (
   <div dir="ltr" className="mx-auto md:w-[70%] w-[65%] pt-10">
     <div className="w-full">
       <div className="flex -ml-1 overflow-x-auto">
-        {[...Array(5)].map((_, i) => (
+        {[...Array(4)].map((_, i) => (
           <div key={i} className="pl-1 flex-shrink-0 w-48 md:basis-3/12">
             <BookSkeleton />
           </div>
