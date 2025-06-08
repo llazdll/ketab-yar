@@ -26,9 +26,7 @@ export default function Home() {
             </h3>
             
             <h1 className="text-4xl font-bold leading-tight md:text-5xl">
-              با <span className="text-primary">کتاب یار</span>  دیگه پول به کتاب نده ,
-              <br />
-              الکل بهتره
+              <span className="text-primary">کتاب  یار</span>  همیشگی
             </h1>
             
             <p className="text-xl text-gray-600 md:text-2xl">
