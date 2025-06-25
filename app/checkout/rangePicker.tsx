@@ -21,6 +21,7 @@ function RangePicker({ onDateChange, onDaysChange }: RangePickerProps) {
     setDays(newDays)
     onDaysChange(newDays)
   }
+console.log(days);
 
   return (
     <>

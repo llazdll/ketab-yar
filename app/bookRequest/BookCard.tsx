@@ -29,9 +29,9 @@ export default function BookCard({ book }: { book: TypeBook }) {
         });
       }
     } catch (error) {
-      toast.error('خطای غیرمنتظره', {
-        description: 'در هنگام افزودن کتاب به سبد خرید مشکلی پیش آمد.'
-      });
+      toast.error(`${error} خطای غیرمنتظره`, {
+        description: 'در هنگام افزودن کتاب به سبد خرید مشکلی پیش آمد. '
+      },);
     } finally {
       setLoading(false);
     }

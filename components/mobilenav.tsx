@@ -11,13 +11,11 @@ import { FiUser, FiLogOut, FiShoppingBag } from "react-icons/fi";
 import SignOutButton from "./SignOutButton"
 import SignInButtons from "./SignInButtons"
 import NavigationLinks from "./NavigationLinks"
-import { CartItem } from "@/utils/types";
 import Link from "next/link";
-
-export function UserNav({ session, data }: { session: any, data: CartItem }) {
+import { TypeUserNavProps } from "@/utils/types";
+export function UserNav({ session, data }: TypeUserNavProps) {
   if (session === undefined) {
-    return <div className="w-[100px] h-[30px] rounded-full bg-muted animate-pulse" />
-  }
+    return <div className="w-[100px] h-[30px] rounded-full bg-muted animate-pulse" />;}
 
   const cartCount = data.reduce((sum, item) => sum + item.quantity, 0);
   const cartTotal = data.reduce((sum, item) => sum + (item.book.dailyPrice * item.quantity), 0);

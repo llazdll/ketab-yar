@@ -42,6 +42,20 @@ export type RentalCartItem = {
   tags?: string[]; // Array of tags
   views?: number;
 };
+export type TypeUser = {
+  name: string;
+  email: string;
+  image?: string;
+}
+export type TypeSession = {
+  user: User | null;
+}
+
+export type TypeUserNavProps = {
+  session: Session | undefined;
+  data: CartItem[];
+}
+
 export type CartItem = {
   book: TypeBook | null;
   id: string;

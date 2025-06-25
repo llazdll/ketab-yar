@@ -26,7 +26,7 @@ function AddToCartButton({ product_id }: { product_id: string }) {
         toast.error(result.error || 'این کتاب در  سبد خرید هست')
       }
     } catch (error) {
-      toast.error('خطای غیرمنتظره در افزودن به سبد خرید')
+      toast.error(`${error}  خطای غیرمنتظره در افزودن به سبد خرید `)
     } finally {
       setLoading(false)
     }

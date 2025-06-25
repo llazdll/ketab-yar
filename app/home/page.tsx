@@ -1,4 +1,5 @@
 'use client'
+import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 
@@ -117,7 +118,7 @@ const HomePage = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {menuItems.map((item) => (
                   <div key={item.id} className="bg-white rounded-lg shadow overflow-hidden">
-                    <img src={item.image} alt={item.name} className="w-full h-48 object-cover" />
+                    <Image src={item.image} alt={item.name} className="w-full h-48 object-cover" />
                     <div className="p-6">
                       <h3 className="text-xl font-semibold text-gray-800">{item.name}</h3>
                       <p className="text-gray-600 mt-2">{item.description}</p>
