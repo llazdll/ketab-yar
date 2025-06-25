@@ -16,7 +16,7 @@ export type RentalCartItem = {
     tax: number;
     totalRentalCost: number;
   };
-  export type Book = {
+  export type TypeBook = {
   id: string;
   title: string; // Bilingual title
   author: string; // Bilingual author name
@@ -43,10 +43,37 @@ export type RentalCartItem = {
   views?: number;
 };
 export type CartItem = {
-  book: Book | null;
+  book: TypeBook | null;
   id: string;
   userId: string;
   quantity: number;
   createdAt: Date;
   updatedAt: Date;
+};
+export type TypeProduct = {
+  id: string;
+  title: string;
+  altTitle: string | null;
+  author: string;
+  isbn: string | null;
+  publisher: string;
+  edition: string | null;
+  description: string;
+  rating: number;
+  pages: number;
+  publishedYear: string | number;
+  dailyPrice: number;
+  status: 'AVAILABLE' | 'RENTED' | 'UNDER_MAINTENANCE' | 'LOST' | 'RESERVED';
+  category: string;
+  language: string;
+  condition: 'NEW' | 'LIKE_NEW' | 'VERY_GOOD';
+  images: string[];
+  deposit?: number;
+  featured?: boolean;
+  ownerId?: string;
+  location?: string;
+  tags?: string[];
+  views?: number;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
 };

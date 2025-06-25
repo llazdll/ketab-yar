@@ -1,43 +1,14 @@
 "use server"
 import { FaInfoCircle, FaStar, FaBookOpen, FaCalendarAlt, FaShoppingCart, FaArrowLeft } from 'react-icons/fa'
-import { Skeleton } from '@/components/ui/skeleton'
 import { fetchSingleBooks } from '@/utils/actions'
 import Image from 'next/image'
-import { addToCartAction } from '@/utils/actions'
 import { Badge } from '@/components/ui/badge'
 import AddToCartButton from '@/components/addToCartButton'
 import Link from 'next/link'
-
-type Product = {
-  id: string;
-  title: string;
-  altTitle: string | null;
-  author: string;
-  isbn: string | null;
-  publisher: string;
-  edition: string | null;
-  description: string;
-  rating: number;
-  pages: number;
-  publishedYear: string | number;
-  dailyPrice: number;
-  status: 'AVAILABLE' | 'RENTED' | 'UNDER_MAINTENANCE' | 'LOST' | 'RESERVED';
-  category: string;
-  language: string;
-  condition: 'NEW' | 'LIKE_NEW' | 'VERY_GOOD';
-  images: string[];
-  deposit?: number;
-  featured?: boolean;
-  ownerId?: string;
-  location?: string;
-  tags?: string[];
-  views?: number;
-  createdAt?: Date | string;
-  updatedAt?: Date | string;
-};
+import { TypeProduct } from '@/utils/types'
 
 async function SingleProductPage({ params }: { params: { id: string } }) {
-  const product: Product = await fetchSingleBooks(params.id);
+  const product: TypeProduct = await fetchSingleBooks(params.id);
 
   return (
     <section className="max-w-6xl mx-auto px-4 py-8 md:py-12">

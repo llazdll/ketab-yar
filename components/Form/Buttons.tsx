@@ -3,9 +3,8 @@
 import { useFormStatus } from 'react-dom';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import SignInButtons from '../SignInButtons';
-import { FaRegHeart, FaHeart, FaSpinner, FaPenSquare } from 'react-icons/fa';
-import { LuTrash2} from 'react-icons/lu';
+import {  FaSpinner } from 'react-icons/fa';
+
 
 
 type btnSize = 'default' | 'lg' | 'sm';

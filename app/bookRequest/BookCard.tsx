@@ -6,8 +6,8 @@ import Image from "next/image";
 import { addToCartAction } from "@/utils/actions";
 import Link from 'next/link';
 import { toast } from 'sonner';
-
-export default function BookCard({ book }: { book: any }) {
+import { TypeBook } from '@/utils/types';
+export default function BookCard({ book }: { book: TypeBook }) {
   const [loading, setLoading] = useState(false);
 
   const handleAddToCart = async () => {

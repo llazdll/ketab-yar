@@ -116,7 +116,7 @@ export function UserNav({ session, data }: { session: any, data: CartItem }) {
           <NavigationLinks />
         </div>
         <DropdownMenuItem className="px-3 py-2">
-          <SignInButtons className="w-full" />
+          <SignInButtons />
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
