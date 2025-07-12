@@ -11,7 +11,7 @@ type Props={
     id:string
   }
 }
-async function SingleProductPage({ params }: Props}) {
+async function SingleProductPage({ params }: Props) {
   const product: TypeProduct = await fetchSingleBooks(params.id);
 
   return (
