@@ -1,3 +1,5 @@
+import { Session } from "next-auth";
+
 export type RentalCartItem = {
     bookId: string;
     title: string;
@@ -52,7 +54,7 @@ export type TypeSession = {
 }
 
 export type TypeUserNavProps = {
-  session: Session | undefined;
+  session: Session| undefined;
   data: CartItem[];
 }
 
@@ -64,6 +66,61 @@ export type CartItem = {
   createdAt: Date;
   updatedAt: Date;
 };
+// export type TypeProduct = {
+//   id: string;
+//   title: string;
+//   altTitle: string | null;
+//   author: string;
+//   isbn: string | null;
+//   publisher: string;
+//   edition: string | null;
+//   description: string;
+//   rating?: number;
+//   pages?: number;
+//   publishedYear?: string | number;
+//   dailyPrice?: number;
+//   status: 'AVAILABLE' | 'RENTED' | 'UNDER_MAINTENANCE' | 'LOST' | 'RESERVED';
+//   category: string;
+//   language: string;
+//   condition: 'NEW' | 'LIKE_NEW' | 'VERY_GOOD';
+//   images: string[];
+//   deposit?: number;
+//   featured?: boolean;
+//   ownerId?: string;
+//   location?: string;
+//   tags?: string[];
+//   views?: number;
+//   createdAt?: Date | string;
+//   updatedAt?: Date | string;
+// };
+// -----
+// export type TypeProduct = {
+//   id: string;
+//   title: string;
+//   altTitle: string | null;
+//   author: string;
+//   isbn: string | number; 
+//   publisher: string;
+//   edition: string | null;
+//   description: string;
+//   rating?: number;
+//   pageCount?: number;
+//   publishedYear?: string | number;
+//   dailyPrice?: number;
+//   status: 'AVAILABLE' | 'RENTED' | 'UNDER_MAINTENANCE' | 'LOST' | 'RESERVED';
+//   category: string;
+//   language: string;
+//   condition: 'NEW' | 'LIKE_NEW' | 'VERY_GOOD';
+//   images: string[];
+//   deposit?: number;
+//   featured?: boolean;
+//   ownerId?: string;
+//   location?: string;
+//   tags?: string[];
+//   views?: number;
+//   createdAt?: Date | string;
+//   updatedAt?: Date | string;
+// };
 export type TypeProduct = {
   id: string;
   title: string;
@@ -73,21 +130,20 @@ export type TypeProduct = {
   publisher: string;
   edition: string | null;
   description: string;
-  rating: number;
-  pages: number;
-  publishedYear: string | number;
-  dailyPrice: number;
-  status: 'AVAILABLE' | 'RENTED' | 'UNDER_MAINTENANCE' | 'LOST' | 'RESERVED';
+  condition: 'NEW' | 'LIKE_NEW' | 'VERY_GOOD';
   category: string;
   language: string;
-  condition: 'NEW' | 'LIKE_NEW' | 'VERY_GOOD';
-  images: string[];
-  deposit?: number;
-  featured?: boolean;
-  ownerId?: string;
-  location?: string;
-  tags?: string[];
-  views?: number;
-  createdAt?: Date | string;
-  updatedAt?: Date | string;
+  pageCount: number | null;
+  images: string[] | null;
+  dailyPrice: number;
+  deposit: number;
+  status: 'AVAILABLE' | 'RENTED' | 'UNDER_MAINTENANCE' | 'LOST' | 'RESERVED';
+  featured: boolean;
+  ownerId: string;
+  location: string | null;
+  tags: string[] | null;
+  views: number;
+  createdAt: string | Date;
+  updatedAt: string | Date;
 };
+

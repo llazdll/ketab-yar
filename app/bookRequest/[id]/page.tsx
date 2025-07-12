@@ -5,15 +5,30 @@ import Image from 'next/image'
 import { Badge } from '@/components/ui/badge'
 import AddToCartButton from '@/components/addToCartButton'
 import Link from 'next/link'
-import { TypeProduct } from '@/utils/types'
-type PageProps={
-  params:{
-    id:string
-  }
-}
+import { TypeBook, TypeProduct } from '@/utils/types'
+import { Button } from '@/components/ui/button'
+type PageProps = {
+  params: Promise<{ id: string }>
+};
 async function SingleProductPage({ params }: PageProps) {
-  const product: TypeProduct = await fetchSingleBooks(params.id);
-
+const { id } = await params; 
+  const product: TypeProduct | null = await fetchSingleBooks(id);
+  if (!product) {
+    return (
+      <section className="max-w-6xl mx-auto px-4 py-8 md:py-12">
+        <div className="mb-6">
+          <Link
+            href="/books"
+            className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
+          >
+            <FaArrowLeft />
+            <span>بازگشت به لیست کتاب‌ها</span>
+          </Link>
+        </div>
+        <p className="text-red-500">کتاب مورد نظر یافت نشد.</p>
+      </section>
+    );
+  }
   return (
     <section className="max-w-6xl mx-auto px-4 py-8 md:py-12">
       <div className="mb-6">
@@ -39,7 +54,7 @@ async function SingleProductPage({ params }: PageProps) {
           <div className="absolute top-2 left-2">
             <Badge variant="secondary" className="flex items-center gap-1">
               <FaStar className="text-yellow-500" size={12} />
-              <span>{product.rating || 'N/A'}</span>
+              <span>N/A</span>
             </Badge>
           </div>
         </div>
@@ -65,18 +80,17 @@ async function SingleProductPage({ params }: PageProps) {
             <div className="flex flex-wrap gap-2">
               <Badge variant="outline" className="flex items-center gap-1">
                 <FaBookOpen className="text-primary" size={12} />
-                {product.pages} صفحه
+                {product.pageCount} صفحه
               </Badge>
               <Badge variant="outline" className="flex items-center gap-1">
                 <FaCalendarAlt className="text-primary" size={12} />
-                {product.publishedYear}
+                {product.publisher}
               </Badge>
               <Badge variant="secondary">{product.category}</Badge>
-              <Badge variant={product.status === 'AVAILABLE' ? 'success' : 'destructive'}>
+              <Badge variant={'outline'}>
                 {product.status === 'AVAILABLE' ? 'موجود' : 'ناموجود'}
               </Badge>
             </div>
-
             <div className="bg-gray-50 p-4 rounded-lg space-y-3">
               <div className="flex items-center gap-2 text-primary">
                 <FaInfoCircle />
