@@ -6,8 +6,12 @@ import { Badge } from '@/components/ui/badge'
 import AddToCartButton from '@/components/addToCartButton'
 import Link from 'next/link'
 import { TypeProduct } from '@/utils/types'
-
-async function SingleProductPage({ params }: { params: { id: string } }) {
+type Props={
+  params:{
+    id:string
+  }
+}
+async function SingleProductPage({ params }: Props}) {
   const product: TypeProduct = await fetchSingleBooks(params.id);
 
   return (
