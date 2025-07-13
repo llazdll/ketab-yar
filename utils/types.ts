@@ -54,7 +54,7 @@ export type TypeSession = {
 }
 
 export type TypeUserNavProps = {
-  session: Session| undefined;
+  session: Session| null;
   data: CartItem[];
 }
 
