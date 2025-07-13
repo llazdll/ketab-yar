@@ -5,8 +5,7 @@ import Image from 'next/image'
 import { Badge } from '@/components/ui/badge'
 import AddToCartButton from '@/components/addToCartButton'
 import Link from 'next/link'
-import { TypeBook, TypeProduct } from '@/utils/types'
-import { Button } from '@/components/ui/button'
+import { TypeProduct } from '@/utils/types'
 type PageProps = {
   params: Promise<{ id: string }>
 };
