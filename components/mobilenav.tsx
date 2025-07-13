@@ -12,13 +12,16 @@ import SignOutButton from "./SignOutButton"
 import SignInButtons from "./SignInButtons"
 import NavigationLinks from "./NavigationLinks"
 import Link from "next/link";
-import { TypeUserNavProps } from "@/utils/types";
-export function UserNav({ session, data }: TypeUserNavProps) {
+import { BookRental } from "@/utils/types";
+import { Session } from "next-auth";
+export function UserNav({ session, data }: {session:Session|null,data:BookRental[]}) {
+  console.log('mobile nav data',data);
+  
   if (session === undefined) {
     return <div className="w-[100px] h-[30px] rounded-full bg-muted animate-pulse" />;}
 
   const cartCount = data.reduce((sum, item) => sum + item.quantity, 0);
-  const cartTotal = data.reduce((sum, item) => sum + (item.book.dailyPrice * item.quantity), 0);
+  const cartTotal = data.reduce((sum, item) => sum + (item?.book?.dailyPrice || 10 * item.quantity), 0);
 
   return session?.user ? (
     <DropdownMenu>

@@ -2,11 +2,11 @@
 import React from 'react'
 import { FaInfoCircle, FaStar } from 'react-icons/fa'
 import Image from 'next/image'
-import { Book } from '@/utils/types'
+import { TypeBook } from '@/utils/types'
 import { Skeleton } from '@/components/ui/skeleton'
 
 interface BookInfoProps {
-    selectedBookData: Book | null
+    selectedBookData: TypeBook | null
 }
 
 function BookInfo({ selectedBookData }: BookInfoProps) {
@@ -40,10 +40,10 @@ function BookInfo({ selectedBookData }: BookInfoProps) {
                     </span>
                     <span className='text-sm bg-green-100 text-green-800 px-2 py-1 rounded flex items-center gap-1'>
                         <FaStar className="text-yellow-500" />
-                        {selectedBookData.rating}
+                        {'N/A'}
                     </span>
                     <span className='text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded'>
-                        {selectedBookData.pages} صفحه
+                        {selectedBookData.pageCount} صفحه
                     </span>
                 </div>
                 <p className='text-gray-700 text-justify leading-relaxed'>
@@ -52,9 +52,6 @@ function BookInfo({ selectedBookData }: BookInfoProps) {
                 <div className='pt-2'>
                     <p className='text-sm text-gray-500'>
                         <span className='font-medium'>نویسنده:</span> {selectedBookData.author}
-                    </p>
-                    <p className='text-sm text-gray-500'>
-                        <span className='font-medium'>سال انتشار:</span> {selectedBookData.publishedYear}
                     </p>
                 </div>
             </div>

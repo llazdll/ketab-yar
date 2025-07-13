@@ -6,8 +6,8 @@ import Image from "next/image";
 import { addToCartAction } from "@/utils/actions";
 import Link from 'next/link';
 import { toast } from 'sonner';
-import { TypeBook } from '@/utils/types';
-export default function BookCard({ book }: { book: TypeBook }) {
+import { TypeProduct } from '@/utils/types';
+export default function BookCard({ book }: { book: TypeProduct }) {
   const [loading, setLoading] = useState(false);
 
   const handleAddToCart = async () => {
@@ -44,7 +44,7 @@ export default function BookCard({ book }: { book: TypeBook }) {
         className="relative aspect-[3/4] bg-gray-100 rounded-t-lg overflow-hidden"
       >
         <Image
-          src={book.images[0] || '/books/default.jpg'}
+          src={book.images?.[0] || '/books/default.jpg'}
           alt={book.title}
           fill
           className="object-cover"

@@ -53,6 +53,7 @@ export const createBookAction = async (
     await db.book.create({
       data: {
         ...validatedFields,
+        description: validatedFields.description ?? "", // fallback to empty string
         images: [fullPath],
         ownerId: "user_5tY8LK9J2mQ3eWXK7vY1hGQ4eF",
       },
@@ -118,7 +119,8 @@ export const getCartItems = async () => {
   // Fetch cart items for the authenticated user
   const cartItems = await db.cart.findMany({
     where: {
-      userId: user.user?.email as string,
+      // userId: user.user?.email as string,
+      userId: "user_1rT9LK2J7mQ4eWXK3vY8hGQ1eH"
     },
   });
 

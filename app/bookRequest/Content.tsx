@@ -22,17 +22,17 @@ import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import { fetchFeaturedBooks } from "@/utils/actions";
 import Image from "next/image";
 import BookCard from "./BookCard";
-import {Book} from '@/utils/types'
+import {TypeProduct} from '@/utils/types'
 
 
 export default function Content() {
-  const [books, setBooks] = useState<Book[]>([]);
+  const [books, setBooks] = useState<TypeProduct[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
   useEffect(() => {
     const loadBooks = async () => {
-      const fetchedBooks: Book[] = await fetchFeaturedBooks();
+      const fetchedBooks: TypeProduct[] = await fetchFeaturedBooks();
       setBooks(fetchedBooks);
     };
     loadBooks();
@@ -73,8 +73,8 @@ export default function Content() {
                   <Card className="h-full flex flex-col border border-gray-200 shadow-sm">
                     <div className="relative aspect-[3/4] bg-gray-100 rounded-t-lg overflow-hidden">
                       <Image
-                        src={book.images[0]}
-                        alt={book.title}
+                        src={book?.images?.[0] ?? ""}
+                        alt={book?.title ?? "Book image"}
                         fill
                         className="object-cover"
                         sizes="(max-width: 640px) 85vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 20vw"

@@ -6,7 +6,8 @@ import Counter from './Counter';
 
 async function Cart() {
     const cartItems = await getCartItems();
-
+    console.log(cartItems,'User_1rT9LK2J7mQ4eWXK3vY8hGQ1eH');
+    
     if (!cartItems || cartItems.length === 0) {
         return (
             <div className="flex flex-col items-center justify-center min-h-[50vh]">
@@ -30,8 +31,8 @@ async function Cart() {
                         <div key={item.id} className="flex flex-col md:flex-row gap-4 p-4 border rounded-lg">
                             <div className="relative aspect-[3/4] w-full md:w-48 flex-shrink-0">
                                 <Image
-                                    src={item.book.images[0]}
-                                    alt={item.book.title}
+                                    src={item?.book?.images?.[0] || '/books/default.jpg'}
+                                    alt={item?.book?.title||'alt'}
                                     fill
                                     className="object-cover rounded-lg"
                                     sizes="(max-width: 640px) 100vw, 200px"
@@ -40,12 +41,12 @@ async function Cart() {
 
                             <div className="flex-grow">
                                 <h2 className="text-xl font-bold">{item.book?.title}</h2>
-                                <p className="text-gray-600">{item.book.author}</p>
+                                <p className="text-gray-600">{item?.book?.author}</p>
                                 <p className="text-primary font-bold mt-2">
-                                    {item.book.dailyPrice.toLocaleString()} تومان/روز
+                                    {item?.book?.dailyPrice.toLocaleString()} تومان/روز
                                 </p>
                                 <p className="text-sm text-gray-500 mt-1">
-                                    ودیعه: {item.book.deposit.toLocaleString()} تومان
+                                    ودیعه: {item?.book?.deposit.toLocaleString()} تومان
                                 </p>
 
                                 <div className="flex items-center mt-4 gap-4">
@@ -71,7 +72,7 @@ async function Cart() {
                             <span>مبلغ کل:</span>
                             <span>
                                 {cartItems
-                                    .reduce((sum, item) => sum + (item.book.dailyPrice * item.quantity), 0)
+                                    .reduce((sum, item) => sum + (item.book?.dailyPrice||10 * item.quantity), 0)
                                     .toLocaleString()} تومان
                             </span>
                         </div>

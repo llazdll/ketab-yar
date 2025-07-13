@@ -7,12 +7,12 @@ import { toast } from 'sonner'
 import RangePicker from './rangePicker'
 import CitySelector from './CitySelector'
 import { getCartItems } from '@/utils/actions'
-import { Book } from '@/utils/types'
+import { TypeProduct } from '@/utils/types'
 
 
 function RentBook() {
   const [selectedCity, setSelectedCity] = useState<string>('')
-  const [cartItems, setCartItems] = useState<Book[]>([])
+  const [cartItems, setCartItems] = useState<TypeProduct[]>([])
   const [dateRange, setDateRange] = useState<string[]>([])
   const [days, setDays] = useState<number>(0)
 
@@ -27,8 +27,8 @@ function RentBook() {
         // }
 
         const validBooks = items
-          .filter(item => item?.book)
-          .map(item => item.book)
+          .filter(item => item?.book !== null)
+          .map(item => item.book!)
 
         // if (validBooks.length === 0) {
         //   setError('کتاب‌های سبد خرید نامعتبر هستند')

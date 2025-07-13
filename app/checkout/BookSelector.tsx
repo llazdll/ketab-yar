@@ -1,5 +1,5 @@
 "use client"
-import { Book } from '@/types'
+import { TypeBook } from '@/utils/types'
 import React from 'react'
 import {
     Select,
@@ -15,7 +15,7 @@ import {
 interface BookSelectorProps {
     selectedBook: string
     setSelectedBook: (value: string) => void
-    books: Book[]
+    books: TypeBook[]
     disabled?: boolean
 }
 
@@ -38,7 +38,7 @@ function BookSelector({ selectedBook, setSelectedBook, books, disabled }: BookSe
                             <SelectItem key={book.id} value={book.id}>
                                 <div className="flex items-center gap-2">
                                     <span>{book.title}</span>
-                                    {book.availableCopies <= 0 && (
+                                    {book.status ==='RENTED' && (
                                         <span className="text-xs text-red-500">(ناموجود)</span>
                                     )}
                                 </div>

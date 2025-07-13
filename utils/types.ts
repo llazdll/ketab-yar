@@ -22,9 +22,9 @@ export type RentalCartItem = {
   id: string;
   title: string; // Bilingual title
   author: string; // Bilingual author name
-  isbn: string;
+  isbn: string | null;
   publisher: string; // Bilingual publisher
-  edition: string; // Bilingual edition
+  edition: string|null; // Bilingual edition
   description: string; // Bilingual description
   condition: 'NEW' | 'LIKE_NEW' | 'VERY_GOOD';
   category: string; // Bilingual category
@@ -50,11 +50,11 @@ export type TypeUser = {
   image?: string;
 }
 export type TypeSession = {
-  user: User | null;
+  user: TypeUser | null;
 }
 
 export type TypeUserNavProps = {
-  session: Session| undefined;
+  session: Session| null;
   data: CartItem[];
 }
 
@@ -146,4 +146,42 @@ export type TypeProduct = {
   createdAt: string | Date;
   updatedAt: string | Date;
 };
+
+// ----
+interface BookT {
+  id: string;
+  title: string;
+  altTitle: string | null;
+  author: string;
+  isbn: string | null;
+  publisher: string;
+  edition: string | null;
+  description: string;
+  condition: string;
+  category: string;
+  language: string;
+  pageCount: number | null;
+  images: string[];
+  dailyPrice: number;
+  deposit: number;
+  status: string;
+  featured: boolean;
+  ownerId: string;
+  location: string | null; // ← fixed here
+  tags: string[];
+  views: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export type BookRental= {
+  id: string;
+  userId: string;
+  bookId: string;
+  quantity: number;
+  createdAt: Date;
+  updatedAt: Date;
+  book: BookT |null;
+}
+
 

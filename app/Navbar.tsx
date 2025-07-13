@@ -5,6 +5,7 @@ import { UserNav } from '@/components/mobilenav';
 import NavigationLinks from '@/components/NavigationLinks';
 import { getCartItems } from '@/utils/actions';
 
+
 export default async function Navbar() {
   const session = await auth();
   const data = await getCartItems()
