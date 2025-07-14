@@ -2,6 +2,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   serverActions: {
+    reactStrictMode: true,
     bodySizeLimit: '10mb', // Adjust this value as needed (e.g., '5mb', '10mb')
   },
   images: {
