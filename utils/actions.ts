@@ -4,7 +4,7 @@ import db from '@/utils/db'
 import { bookSchema, imageSchema, validateWithZodSchema } from './schema';
 import { uploadImage } from './supabase';
 import { revalidatePath } from 'next/cache';
-
+import { BookCondition } from '@prisma/client';
 const getAuthUser = async () => {
   const user = await auth();
   if (!user) {
@@ -56,6 +56,7 @@ export const createBookAction = async (
         description: validatedFields.description ?? "", // fallback to empty string
         images: [fullPath],
         ownerId: "user_5tY8LK9J2mQ3eWXK7vY1hGQ4eF",
+        condition: validatedFields.condition as BookCondition,
       },
     });
 
