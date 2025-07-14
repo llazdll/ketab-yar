@@ -7,7 +7,6 @@ function NavigationLinks() {
         <Link href="/bookRequest" className="text-gray-700 hover:text-prinmary transition">درخواست کتاب</Link>
         <Link href="/lendBook" className="text-gray-700 hover:text-prinmary transition">قرض کتاب</Link>
         <Link href="/aboutUs" className="text-gray-700 hover:text-prinmary transition">درباره ما</Link>
-        <Link href="/contact" className="text-gray-700 hover:text-prinmary transition">تماس با ما</Link>
     </>
     )
 }
