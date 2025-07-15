@@ -19,7 +19,7 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
-import { fetchFeaturedBooks,fetchAllBooks} from "@/utils/actions";
+import {fetchAllBooks} from "@/utils/actions";
 import Image from "next/image";
 import BookCard from "./BookCard";
 import {TypeProduct} from '@/utils/types'
