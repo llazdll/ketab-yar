@@ -19,11 +19,10 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
-import { fetchFeaturedBooks } from "@/utils/actions";
+import { fetchFeaturedBooks,fetchAllBooks} from "@/utils/actions";
 import Image from "next/image";
 import BookCard from "./BookCard";
 import {TypeProduct} from '@/utils/types'
-
 
 export default function Content() {
   const [books, setBooks] = useState<TypeProduct[]>([]);
@@ -32,7 +31,7 @@ export default function Content() {
 
   useEffect(() => {
     const loadBooks = async () => {
-      const fetchedBooks: TypeProduct[] = await fetchFeaturedBooks();
+      const fetchedBooks: TypeProduct[] = await fetchAllBooks();
       setBooks(fetchedBooks);
     };
     loadBooks();
