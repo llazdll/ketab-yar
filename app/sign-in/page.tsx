@@ -1,250 +1,262 @@
-'use client'
+"use client"
 
-import * as z from 'zod'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
+import Image from "next/image"
 import {
   Form,
-  FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { Checkbox } from '@/components/ui/checkbox'
+  FormControl,
+  FormMessage,
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import img from '@/public/login.png'
 
-// Zod schema with validations
-const formSchema = z.object({
-  firstName: z.string()
-    .min(1, 'نام اجباری است')
-    .regex(/^[^\d]+$/, 'نام نباید شامل عدد باشد'),
-  lastName: z.string()
-    .min(1, 'نام خانوادگی اجباری است')
-    .regex(/^[^\d]+$/, 'نام خانوادگی نباید شامل عدد باشد'),
-  age: z.string()
-    .min(1, 'سن اجباری است')
-    .regex(/^\d+$/, 'سن باید فقط شامل عدد باشد'),
-  phone: z.string()
-    .min(1, 'شماره تلفن اجباری است')
-    .regex(/^\d+$/, 'شماره تلفن باید فقط شامل عدد باشد'),
-  email: z.string()
-    .email('ایمیل معتبر نیست'),
-  address: z.string()
-    .min(1, 'آدرس اجباری است'),
-  city: z.string()
-    .min(1, 'شهر اجباری است'),
-  zip: z.string()
-    .min(1, 'کد پستی اجباری است')
-    .regex(/^\d+$/, 'کد پستی باید فقط شامل عدد باشد'),
-  notify: z.boolean().optional()
+const loginSchema = z.object({
+  email: z.string().email("ایمیل نامعتبر است"),
+  password: z.string().min(6, "رمز عبور باید حداقل ۶ کاراکتر باشد"),
 })
 
-type FormSchemaType = z.infer<typeof formSchema>
+const registerSchema = loginSchema.extend({
+  name: z.string().min(2, "نام باید حداقل ۲ حرف باشد"),
+  address: z.string().min(5, "آدرس باید حداقل ۵ کاراکتر باشد"),
+  phone: z.string().regex(/^\d{11}$/, "شماره تلفن باید دقیقاً ۱۱ رقم باشد"),
+  confirmPassword: z.string().min(6, "تأیید رمز عبور باید حداقل ۶ کاراکتر باشد"),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "تأیید رمز عبور با رمز عبور مطابقت ندارد",
+  path: ["confirmPassword"],
+})
 
-export default function UserForm() {
-  const form = useForm<FormSchemaType>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      firstName: '',
-      lastName: '',
-      age: '',
-      phone: '',
-      email: '',
-      address: '',
-      city: '',
-      zip: '',
-      notify: true
-    }
+// Utility to filter phone input
+const handlePhoneInput = (
+  e: React.ChangeEvent<HTMLInputElement>,
+  onChange: (value: string) => void
+) => {
+  const numericValue = e.target.value.replace(/[^0-9]/g, "").slice(0, 11)
+  onChange(numericValue)
+}
+
+// Login Form Component
+function LoginForm({
+  form,
+  onSubmit,
+}: {
+  form: ReturnType<typeof useForm<any>>
+  onSubmit: (data: any) => void
+}) {
+  return (
+    <Form {...form}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault()
+          form.handleSubmit(onSubmit)(e)
+          console.log("Submitting form...")
+          console.log(e);
+          
+        }}
+        className="space-y-5"
+      >
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>ایمیل</FormLabel>
+              <FormControl>
+                <Input type="email" autoComplete="email" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>رمز عبور</FormLabel>
+              <FormControl>
+                <Input type="password" autoComplete="current-password" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <p className="text-sm text-gray-500 underline cursor-pointer hover:text-primary">
+          رمز عبور خود را فراموش کردم
+        </p>
+        <Button type="submit" className="w-full bg-primary text-white hover:bg-primary/90">
+          ورود به حساب کاربری
+        </Button>
+      </form>
+    </Form>
+  )
+}
+
+// Register Form Component
+function RegisterForm({
+  form,
+  onSubmit,
+}: {
+  form: ReturnType<typeof useForm<any>>
+  onSubmit: (data: any) => void
+}) {
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>نام کامل</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="address"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>آدرس</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="phone"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>شماره تلفن</FormLabel>
+              <FormControl>
+                <Input
+                  type="tel"
+                  {...field}
+                  onChange={(e) => handlePhoneInput(e, field.onChange)}
+                  placeholder="09123456789"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>رمز عبور</FormLabel>
+              <FormControl>
+                <Input type="password" autoComplete="new-password" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="confirmPassword"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>تأیید رمز عبور</FormLabel>
+              <FormControl>
+                <Input type="password" autoComplete="new-password" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <p className="text-sm text-gray-500 underline cursor-pointer hover:text-primary">
+          رمز عبور خود را فراموش کردم
+        </p>
+        <Button type="submit" className="w-full bg-primary text-white hover:bg-primary/90">
+          ثبت‌نام
+        </Button>
+      </form>
+    </Form>
+  )
+}
+
+export default function AuthPage() {
+  const [isLogin, setIsLogin] = useState(true)
+
+  const loginForm = useForm({
+    resolver: zodResolver(loginSchema),
+    defaultValues: { email: "", password: "" },
   })
 
-  const onSubmit = (data: FormSchemaType) => {
-    console.log('Submitted values:', data)
+  const registerForm = useForm({
+    resolver: zodResolver(registerSchema),
+    defaultValues: { name: "", email: "", password: "", address: "", phone: "", confirmPassword: "" },
+  })
+
+  const onLogin = (data: any) => {
+    console.log("Login:", data)
+  }
+
+  const onRegister = (data: any) => {
+    console.log("Register:", data)
+  }
+
+  // Reset forms when toggling mode
+  const toggleMode = () => {
+    setIsLogin(!isLogin)
+    if (isLogin) {
+      registerForm.reset()
+    } else {
+      loginForm.reset()
+    }
   }
 
   return (
-    <div className="p-4 max-w-3xl mx-auto">
-      <h1 className="text-xl font-bold text-red-600 mb-4 text-right">اطلاعات شخصی</h1>
-
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-          {/* First Name */}
-          <FormField
-            control={form.control}
-            name="firstName"
-            render={({ field }) => (
-              <FormItem className="text-right">
-                <FormLabel className="text-red-500">نام *</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    placeholder="اسمت چیه؟"
-                    onChange={(e) => {
-                      const value = e.target.value.replace(/[0-9]/g, '')
-                      field.onChange(value)
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+    <div dir="rtl" className="min-h-screen flex items-center justify-center bg-[#f0faf8] p-4">
+      <div className="bg-white shadow-md rounded-lg overflow-hidden w-full max-w-4xl grid grid-cols-1 md:grid-cols-2">
+        {/* Image section */}
+        <div className="relative hidden md:block">
+          <Image
+            src={img}
+            alt="تصویر ورود کاربر"
+            className="w-full h-full object-cover"
           />
+        </div>
 
-          {/* Last Name */}
-          <FormField
-            control={form.control}
-            name="lastName"
-            render={({ field }) => (
-              <FormItem className="text-right">
-                <FormLabel className="text-red-500">نام خانوادگی *</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    placeholder="فامیلیت"
-                    onChange={(e) => {
-                      const value = e.target.value.replace(/[0-9]/g, '')
-                      field.onChange(value)
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Age */}
-          <FormField
-            control={form.control}
-            name="age"
-            render={({ field }) => (
-              <FormItem className="text-right">
-                <FormLabel className="text-red-500">سن *</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    placeholder="چند سالته؟"
-                    onChange={(e) => {
-                      const value = e.target.value.replace(/[^0-9]/g, '')
-                      field.onChange(value)
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Phone */}
-          <FormField
-            control={form.control}
-            name="phone"
-            render={({ field }) => (
-              <FormItem className="text-right">
-                <FormLabel className="text-red-500">شماره تلفن *</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    placeholder="با چی بهت زنگ بزنیم"
-                    onChange={(e) => {
-                      const value = e.target.value.replace(/[^0-9]/g, '')
-                      field.onChange(value)
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Email */}
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem className="col-span-full text-right">
-                <FormLabel className="text-red-500">ایمیل *</FormLabel>
-                <FormControl><Input {...field} placeholder="ایمیلی که توش @ داره..." /></FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Address */}
-          <FormField
-            control={form.control}
-            name="address"
-            render={({ field }) => (
-              <FormItem className="col-span-full text-right">
-                <FormLabel className="text-red-500">آدرس *</FormLabel>
-                <FormControl><Input {...field} placeholder="کجا بفرستیم کتاب رو؟" /></FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Zip */}
-          <FormField
-            control={form.control}
-            name="zip"
-            render={({ field }) => (
-              <FormItem className="text-right">
-                <FormLabel className="text-red-500">کد پستی *</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    placeholder="کدی بزن"
-                    onChange={(e) => {
-                      const value = e.target.value.replace(/[^0-9]/g, '')
-                      field.onChange(value)
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* City */}
-          <FormField
-            control={form.control}
-            name="city"
-            render={({ field }) => (
-              <FormItem className="text-right">
-                <FormLabel className="text-red-500">شهر *</FormLabel>
-                <FormControl><Input {...field} placeholder="محل سکونت" /></FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Notify */}
-          <FormField
-            control={form.control}
-            name="notify"
-            render={({ field }) => (
-              <FormItem className="flex items-center gap-2 col-span-full text-right">
-                <FormControl>
-                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-                </FormControl>
-                <FormLabel>اگه می‌خوای از کتاب‌های جدیدمون با خبر بشی</FormLabel>
-              </FormItem>
-            )}
-          />
-
-          {/* Submit Button */}
-          <div className="col-span-full flex justify-end">
-            <Button
-              type="submit"
-              className="bg-orange-500 hover:bg-orange-600 text-white font-bold px-6 py-2 rounded"
+        {/* Form section */}
+        <div className="p-8 w-full bg-[#f8e9d320] flex justify-between flex-col">
+          <div className="flex justify-between items-center mb-4 text-sm text-gray-600">
+            <a href="/" className="underline hover:text-primary"> ⟵ بازگشت به صفحه اصلی </a>
+            <button
+              type="button"
+              className="underline hover:text-primary"
+              onClick={toggleMode}
             >
-              ثبت نهایی
-            </Button>
+              {isLogin ? "حساب ندارید؟ ثبت‌نام" : "حساب دارید؟ ورود"}
+            </button>
           </div>
-        </form>
-      </Form>
+
+          <h2 className="text-2xl font-bold mb-6 text-center text-primary">
+            {isLogin ? "ورود به حساب کاربری" : "ساخت حساب کاربری"}
+          </h2>
+
+          {isLogin ? (
+            <LoginForm form={loginForm} onSubmit={onLogin} />
+          ) : (
+            <RegisterForm form={registerForm} onSubmit={onRegister} />
+          )}
+        </div>
+      </div>
     </div>
   )
 }
